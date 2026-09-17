@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Respostas Prontas | Quando a cliente diz que está caro</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239C5B3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.9 20A9 9 0 1 0 4 16.1L2 22z'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Respostas Prontas">
+<style>
+  :root{
+    --brand:#9C5B3F; --brand-2:#B06B49; --brand-3:#8A4E36;
+    --clay:#C08552; --brass:#A98B4E; --sage:#5C7A5C;
+    --bg:#FAF6F0; --bg2:#F3EBE0; --card:#FEFCF8;
+    --line:#E5DACB; --ink:#3D332C; --muted:#8C8177;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:680px;margin:0 auto;padding:0 16px 64px}
+
+  header{
+    background:linear-gradient(135deg,var(--brand),var(--brand-3));
+    color:#fff;margin:0 -16px 22px;padding:26px 20px 24px;
+    border-radius:0 0 18px 18px;
+  }
+  header .brand{display:flex;align-items:center;gap:12px}
+  header .logo{
+    width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;
+    background:rgba(255,255,255,.18);
+  }
+  header .logo svg{width:22px;height:22px}
+  header h1{margin:0;font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+  header p{margin:5px 0 0;font-size:13.5px;opacity:.92}
+
+  .intro{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin-bottom:22px;
+  }
+  .intro p{margin:0 0 10px;font-size:15px}
+  .intro p:last-child{margin-bottom:0}
+  .intro b{color:var(--brand-3)}
+
+  h2{
+    font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);
+    font-weight:700;margin:30px 0 12px;
+  }
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin-bottom:14px;
+  }
+  .situacao{
+    display:flex;gap:10px;align-items:flex-start;
+    font-size:15px;font-weight:600;color:var(--brand-3);margin-bottom:14px;
+    padding-bottom:13px;border-bottom:1px solid var(--line);
+  }
+  .situacao .n{
+    flex:none;width:24px;height:24px;border-radius:50%;background:var(--brand);color:#fff;
+    display:grid;place-items:center;font-size:12px;font-weight:700;
+  }
+  .fala{
+    background:var(--bg2);border-radius:12px 12px 12px 4px;padding:11px 14px;
+    font-size:14.5px;color:var(--muted);font-style:italic;margin-bottom:14px;
+  }
+  .resposta{position:relative;padding-left:14px;border-left:3px solid var(--sage);margin-bottom:12px}
+  .resposta:last-of-type{margin-bottom:0}
+  .resposta .txt{font-size:15px;white-space:pre-wrap}
+  .btn-cp{
+    margin-top:9px;font:inherit;font-size:12px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;cursor:pointer;background:transparent;color:var(--muted);
+    border:1px solid var(--line);padding:6px 12px;border-radius:8px;
+    display:inline-flex;align-items:center;gap:6px;transition:.16s;
+  }
+  .btn-cp:hover{color:var(--brand);border-color:var(--brand)}
+  .btn-cp.ok{color:var(--sage);border-color:var(--sage)}
+  .btn-cp svg{width:12px;height:12px}
+  .porque{
+    margin-top:14px;padding-top:13px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted);line-height:1.55;
+  }
+  .porque b{color:var(--ink)}
+
+  .aviso{
+    background:var(--bg2);border-left:3px solid var(--brass);border-radius:10px;
+    padding:15px 18px;margin:26px 0;font-size:14.5px;line-height:1.6;
+  }
+  .aviso b{color:var(--brand-3)}
+
+  footer{margin-top:40px;text-align:center;font-size:13px;color:var(--muted);line-height:1.7}
+  footer a{color:var(--brand)}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Respostas Prontas</h1>
+        <p>Quando a cliente diz que está caro</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="intro">
+    <p>Você calculou o preço certo. Agora vem a parte que trava mais que a conta:
+      <b>falar esse preço em voz alta</b> e não abaixar na primeira reclamação.</p>
+    <p>São <b>12 situações reais</b>, com o que responder em cada uma. Copie, cole no WhatsApp,
+      adapte com as suas palavras. O texto é seu.</p>
+  </div>
+
+  <h2>A objeção clássica</h2>
+
+  <div class="card">
+    <div class="situacao"><span class="n">1</span>Ela responde só "nossa, tá caro"</div>
+    <div class="fala">"Nossa, tá caro hein 😅"</div>
+    <div class="resposta">
+      <div class="txt">Eu entendo! Esse valor é porque a peça é feita à mão, uma por uma, e essa aí leva 6 horas de trabalho só na produção.
+
+Se quiser, eu tenho outras opções mais simples que ficam num valor menor. Quer que eu te mostre?</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> você não se desculpa nem discute. Explica o
+      motivo em uma linha e devolve uma pergunta, que mantém a conversa viva em vez de
+      terminar num "ah, tá".</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">2</span>Ela some depois do orçamento</div>
+    <div class="fala">(silêncio há 3 dias)</div>
+    <div class="resposta">
+      <div class="txt">Oi! Passando pra saber se ficou alguma dúvida sobre o orçamento 🙂
+
+Se o valor não coube agora, me fala sem problema nenhum. Dá pra ajustar o tamanho ou fazer uma versão mais simples que fica mais em conta.</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> tira o peso do "não". A maioria some por
+      vergonha de dizer que não pode pagar, não porque achou ruim. Você dá uma saída digna e
+      abre espaço pra uma venda menor.</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">3</span>Ela compara com preço de loja</div>
+    <div class="fala">"Vi um parecido por R$ 30 no shopping"</div>
+    <div class="resposta">
+      <div class="txt">Vi sim, e é bem parecido mesmo! A diferença é que aquele é feito em máquina, aos milhares, todos iguais.
+
+O seu eu faço à mão, do jeito que você escolher: cor, tamanho, nome bordado. E se der qualquer problema, você fala comigo direto, não com um SAC.</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> não briga com o preço do concorrente, muda o
+      que está sendo comparado. Feito à mão e feito em máquina são categorias diferentes.</div>
+  </div>
+
+  <h2>Pedido de desconto</h2>
+
+  <div class="card">
+    <div class="situacao"><span class="n">4</span>Ela pede "um precinho melhor"</div>
+    <div class="fala">"Faz um precinho pra mim?"</div>
+    <div class="resposta">
+      <div class="txt">Esse já é o meu melhor preço pra essa peça 🙂
+
+O que eu consigo fazer: se você levar 2, sai por [VALOR] cada. Ou eu faço uma versão um pouco mais simples, que fica em [VALOR].</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> desconto puro ensina que o seu preço é
+      inflado, e ela vai pedir de novo na próxima. Você troca por <b>volume</b> ou por
+      <b>menos trabalho</b>, que é desconto sem prejuízo.</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">5</span>Ela insiste depois do "não"</div>
+    <div class="fala">"Vai, faz por R$ X, é pra minha filha..."</div>
+    <div class="resposta">
+      <div class="txt">Queria muito conseguir, de verdade. Mas nesse valor eu ficaria trabalhando de graça, e aí eu não consigo continuar fazendo.
+
+Se quiser, eu separo uma peça menor no valor que você falou. Assim dá certo pras duas 🙂</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> "trabalhar de graça" é honesto e concreto, e
+      quase ninguém insiste depois disso. Você não vira vilã, vira alguém com uma conta pra
+      fechar, igual a ela.</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">6</span>É amiga ou parente</div>
+    <div class="fala">"Mas é pra mim, faz um agrado!"</div>
+    <div class="resposta">
+      <div class="txt">Amiga, adoro fazer pra você! Só que esse é o meu trabalho, é de onde vem parte da minha renda.
+
+O que eu faço com carinho: te dou o frete, ou coloco um detalhe extra sem cobrar. Assim eu consigo caprichar sem me apertar 🙂</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> a frase "esse é o meu trabalho" reposiciona
+      sem brigar. E você entrega algo que custa pouco pra você (frete, detalhe) no lugar de
+      cortar a margem.</div>
+  </div>
+
+  <h2>Quando você vai subir o preço</h2>
+
+  <div class="card">
+    <div class="situacao"><span class="n">7</span>Avisar cliente antiga do reajuste</div>
+    <div class="fala">(você descobriu que cobrava abaixo do custo)</div>
+    <div class="resposta">
+      <div class="txt">Oi! Passando pra avisar que a partir de [MÊS] os valores das peças vão ser reajustados, porque o material subiu bastante.
+
+Como você é cliente desde o começo, dá pra fechar no valor antigo qualquer encomenda até [DATA] 🙂</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> avisar antes é respeito, e ainda vira motivo
+      pra ela comprar agora. Reajuste sem aviso é o que gera aquele "poxa, subiu?".</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">8</span>Ela nota que o preço subiu</div>
+    <div class="fala">"Não era R$ 80 da última vez?"</div>
+    <div class="resposta">
+      <div class="txt">Era sim! O material subiu de lá pra cá e eu tive que ajustar, senão não fecha a conta.
+
+A peça continua a mesma, com o mesmo capricho. E se quiser, eu te aviso quando eu fizer alguma promoção 🙂</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> confirma sem se desculpar. Negar ou enrolar
+      é o que quebra a confiança, não o aumento em si.</div>
+  </div>
+
+  <h2>Encomenda e prazo</h2>
+
+  <div class="card">
+    <div class="situacao"><span class="n">9</span>Encomenda grande, quer preço de atacado</div>
+    <div class="fala">"Preciso de 50, faz por quanto?"</div>
+    <div class="resposta">
+      <div class="txt">Consigo sim! Em quantidade eu tenho preço melhor porque otimizo o tempo fazendo tudo de uma vez.
+
+Fica [VALOR] cada, com [PRAZO] de prazo. Pra fechar eu peço 50% de entrada, que é o que uso pra comprar o material.</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> explica <b>por que</b> o preço cai (tempo por
+      peça, não generosidade) e já ancora prazo e entrada, que são as duas coisas que dão
+      dor de cabeça depois.</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">10</span>Ela quer pra ontem</div>
+    <div class="fala">"Consegue pra amanhã?"</div>
+    <div class="resposta">
+      <div class="txt">Meu prazo normal é [X dias], porque cada peça é feita à mão por mim.
+
+Pra amanhã eu consigo, mas preciso deixar outras encomendas de lado. Nesse caso eu cobro uma taxa de urgência de [VALOR]. Fechamos assim?</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> urgência é um serviço, não um favor. Cobrar
+      por ela filtra quem não precisa tanto assim e paga o seu fim de semana.</div>
+  </div>
+
+  <h2>As duas mais difíceis</h2>
+
+  <div class="card">
+    <div class="situacao"><span class="n">11</span>Ela desmerece o trabalho manual</div>
+    <div class="fala">"Mas é só uns fiozinho, né?"</div>
+    <div class="resposta">
+      <div class="txt">Parece simples quando fica pronto, né? 🙂 Essa peça leva [X horas] de trabalho, fora o tempo de escolher o material e desenhar o modelo.
+
+É tipo bolo caseiro: o ingrediente é barato, o que você paga é a mão de quem faz.</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> a comparação com bolo caseiro é imediata e
+      não soa defensiva. Ela reconhece o padrão na hora, sem você precisar dar aula.</div>
+  </div>
+
+  <div class="card">
+    <div class="situacao"><span class="n">12</span>Você é que está insegura</div>
+    <div class="fala">(você olha o preço calculado e pensa "ninguém vai pagar isso")</div>
+    <div class="resposta">
+      <div class="txt">Mande o preço certo pra 10 pessoas antes de mudar qualquer coisa.
+
+Se as 10 acharem caro, aí sim é o mercado falando. Se 2 comprarem sem reclamar, o problema nunca foi o preço: era o medo de mandar ele.</div>
+      <button class="btn-cp" type="button">Copiar</button>
+    </div>
+    <div class="porque"><b>Por que funciona:</b> essa é pra você, não pra cliente. A maioria
+      das artesãs baixa o preço antes de alguém reclamar, por medo do que <b>imagina</b> que
+      vão dizer. Dez conversas resolvem essa dúvida melhor que qualquer teoria.</div>
+  </div>
+
+  <div class="aviso">
+    <b>A regra que vale mais que as 12 frases:</b> nunca responda um pedido de desconto na
+    hora, no impulso. Leia, respire, e só então responda. A resposta rápida é quase sempre
+    "tá bom, faço por menos" — e é ela que faz você trabalhar de graça o mês inteiro.
+  </div>
+
+  <footer>
+    Respostas Prontas · parte do <b>Calculadora de Preço da Artesã</b><br>
+    Dúvida? Responda o e-mail da sua compra que eu te ajudo.
+  </footer>
+</div>
+
+<script>
+document.addEventListener("click", function(e){
+  var b = e.target.closest(".btn-cp");
+  if(!b) return;
+  var txt = b.parentElement.querySelector(".txt").innerText;
+  function feito(){
+    b.classList.add("ok"); var o = b.textContent; b.textContent = "Copiado";
+    setTimeout(function(){ b.classList.remove("ok"); b.textContent = o; }, 1600);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(feito).catch(function(){});
+  } else {
+    var ta = document.createElement("textarea");
+    ta.value = txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand("copy"); feito(); }catch(err){}
+    document.body.removeChild(ta);
+  }
+});
+</script>
+</body>
+</html>

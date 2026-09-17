@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Catálogo Pronto pra Mandar</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239C5B3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2'/%3E%3Cpath d='m9 13 2.5-3 3 4 2-2.5L19 15'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Catálogo">
+<style>
+  :root{
+    --brand:#9C5B3F; --brand-2:#B06B49; --brand-3:#8A4E36;
+    --clay:#C08552; --brass:#A98B4E; --sage:#5C7A5C;
+    --bg:#FAF6F0; --bg2:#F3EBE0; --card:#FEFCF8;
+    --line:#E5DACB; --ink:#3D332C; --muted:#8C8177; --danger:#B5604E;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .app{max-width:720px;margin:0 auto;padding:0 15px 90px}
+
+  header{background:linear-gradient(135deg,var(--brand),var(--brand-3));color:#fff;
+    margin:0 -15px 20px;padding:22px 20px;border-radius:0 0 18px 18px;
+    display:flex;align-items:center;gap:12px}
+  header .logo{width:40px;height:40px;border-radius:11px;flex:none;display:grid;
+    place-items:center;background:rgba(255,255,255,.18)}
+  header .logo svg{width:21px;height:21px}
+  header h1{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em}
+  header p{margin:3px 0 0;font-size:13px;opacity:.9}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:17px 18px;margin-bottom:14px}
+  h2{font-size:16px;font-weight:700;margin:0 0 4px}
+  .desc{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  input[type=text],input[type=number],textarea{
+    width:100%;font:inherit;font-size:16px;padding:11px 13px;border:1px solid var(--line);
+    border-radius:10px;background:#fff;color:var(--ink)}
+  textarea{resize:vertical;min-height:60px;line-height:1.5}
+  input:focus,textarea:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:transparent}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .row.mt,.mt{margin-top:11px}
+
+  .btn{display:block;width:100%;font:inherit;font-size:15px;font-weight:700;cursor:pointer;
+    border:0;border-radius:11px;padding:14px;text-align:center;text-decoration:none;
+    transition:filter .16s}
+  .btn:hover{filter:brightness(1.06)}
+  .btn svg{width:17px;height:17px;vertical-align:-3px;margin-right:7px}
+  .btn-add{background:var(--bg2);color:var(--brand-3);border:1px dashed var(--brand-2)}
+  .btn-go{background:var(--brand);color:#fff;margin-top:6px}
+  .btn-wa{background:var(--sage);color:#fff}
+  .btn-cp{background:var(--bg2);color:var(--ink);border:1px solid var(--line)}
+
+  /* peca */
+  .peca{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:15px 16px;margin-bottom:12px;position:relative}
+  .peca .cab{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-bottom:11px}
+  .peca .num{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted)}
+  .del{background:transparent;border:0;color:var(--muted);font-size:20px;cursor:pointer;
+    line-height:1;padding:2px 6px;border-radius:6px}
+  .del:hover{color:var(--danger);background:var(--bg2)}
+  .foto{position:relative;aspect-ratio:1;background:var(--bg2);border:1px dashed var(--line);
+    border-radius:11px;overflow:hidden;cursor:pointer;display:grid;place-items:center;
+    margin-bottom:11px}
+  .foto img{width:100%;height:100%;object-fit:cover;display:block}
+  .foto .ph{text-align:center;color:var(--muted);font-size:13px;padding:16px}
+  .foto .ph svg{width:26px;height:26px;display:block;margin:0 auto 7px;opacity:.55}
+  .foto input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+  /* preview do catalogo */
+  .previa{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .cat-cab{background:var(--brand);color:#fff;padding:20px;text-align:center}
+  .cat-cab h3{margin:0;font-size:20px;font-weight:700;letter-spacing:-.01em}
+  .cat-cab p{margin:5px 0 0;font-size:13px;opacity:.92}
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+  .cat-item{background:#fff;padding:0}
+  .cat-item .im{aspect-ratio:1;background:var(--bg2);overflow:hidden}
+  .cat-item .im img{width:100%;height:100%;object-fit:cover;display:block}
+  .cat-item .tx{padding:11px 13px 14px}
+  .cat-item .nm{font-size:14px;font-weight:600;line-height:1.35;margin-bottom:3px}
+  .cat-item .ds{font-size:12px;color:var(--muted);line-height:1.45;margin-bottom:7px}
+  .cat-item .pr{font-size:17px;font-weight:700;color:var(--brand)}
+  .cat-rodape{padding:16px 20px;text-align:center;border-top:1px solid var(--line);
+    font-size:13px;color:var(--muted);line-height:1.6}
+  .cat-rodape b{color:var(--ink)}
+  .vazio{padding:44px 20px;text-align:center;color:var(--muted);font-size:14px}
+
+  .aviso{background:var(--bg2);border-left:3px solid var(--brass);border-radius:10px;
+    padding:14px 16px;margin:16px 0;font-size:13.5px;line-height:1.6}
+  .aviso b{color:var(--brand-3)}
+  .msgbox{background:var(--bg2);border-radius:11px;padding:13px 15px;font-size:14px;
+    white-space:pre-wrap;line-height:1.55;margin-bottom:11px}
+  footer{margin-top:34px;text-align:center;font-size:12.5px;color:var(--muted);line-height:1.7}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+  @media print{
+    /* sem margem do navegador: e dela que vinha o cabecalho com data e o
+       rodape com o caminho do arquivo, que deixavam a folha torta */
+    @page{margin:0;size:auto}
+    body{background:#fff;margin:0}
+    header,.naoimprime,footer,.aviso{display:none !important}
+    .previa{border:0;border-radius:0}
+    .app{padding:0;max-width:none}
+    /* a ultima celula vazia sumia o fundo e deixava um buraco na folha */
+    .cat-grid{background:transparent;gap:0}
+    .cat-item{border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+      break-inside:avoid}
+    .cat-item .im{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <path d="m9 13 2.5-3 3 4 2-2.5L19 15"/><circle cx="8.5" cy="8.5" r="1.5"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Catálogo Pronto pra Mandar</h1>
+      <p>Foto, nome e preço num arquivo só</p>
+    </div>
+  </header>
+
+  <div class="card naoimprime">
+    <h2>Seu ateliê</h2>
+    <p class="desc">Aparece no topo do catálogo, é o que dá cara de profissional.</p>
+    <div>
+      <label for="ateliê">Nome do ateliê</label>
+      <input type="text" id="ateliê" placeholder="Ex: Ateliê da Ana" autocomplete="off">
+    </div>
+    <div class="row mt">
+      <div>
+        <label for="zap">WhatsApp</label>
+        <input type="text" id="zap" inputmode="numeric" placeholder="11999998888" autocomplete="off">
+      </div>
+      <div>
+        <label for="insta">Instagram</label>
+        <input type="text" id="insta" placeholder="@seuatelie" autocomplete="off">
+      </div>
+    </div>
+    <div class="mt">
+      <label for="chamada">Frase abaixo do nome</label>
+      <input type="text" id="chamada" placeholder="Ex: peças feitas à mão" autocomplete="off">
+      <p class="desc" style="margin:6px 0 0">Deixe em branco se não quiser nenhuma.</p>
+    </div>
+    <div class="mt">
+      <label for="recado">Recado no rodapé</label>
+      <input type="text" id="recado" placeholder="Ex: Encomendas com 7 dias de antecedência" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="card naoimprime">
+    <h2>Suas peças</h2>
+    <p class="desc">Toque no quadrado pra escolher a foto do celular. O preço você pega da
+      calculadora.</p>
+    <div id="pecas"></div>
+    <button class="btn btn-add" id="addPeca" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14"/><path d="M12 5v14"/></svg>Adicionar peça
+    </button>
+  </div>
+
+  <div class="aviso naoimprime">
+    <b>Dica que vale o preço do catálogo:</b> foto com fundo limpo vende mais que foto bonita.
+    Ponha a peça sobre um pano liso, perto da janela, sem flash. Duas fotos assim valem mais
+    que dez tiradas em cima da mesa bagunçada.
+  </div>
+
+  <h2 style="margin:24px 0 10px" class="naoimprime">Como vai ficar</h2>
+
+  <div class="previa" id="previa"></div>
+
+  <div class="card naoimprime" style="margin-top:14px">
+    <h2>Mandar pra cliente</h2>
+    <p class="desc">O catálogo vira uma imagem quando você salva em PDF. A mensagem abaixo é
+      pra colar junto.</p>
+    <div class="msgbox" id="msg"></div>
+    <button class="btn btn-cp" id="copiarMsg" type="button">Copiar a mensagem</button>
+    <a class="btn btn-wa mt" id="btnWa" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M14.5 21.7a.5.5 0 0 0 .9 0l6.5-19a.5.5 0 0 0-.6-.6l-19 6.5a.5.5 0 0 0 0 .9l7.9 3.2a2 2 0 0 1 1.1 1.1z"/>
+        <path d="M21.9 2.1 11 13"/></svg>Abrir no WhatsApp
+    </a>
+    <button class="btn btn-go mt" id="salvarImg" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Salvar o catálogo em imagem
+    </button>
+    <p class="desc" style="margin:11px 0 0">A imagem aparece direto na conversa, sem a cliente
+      precisar baixar nada. É o formato certo pro WhatsApp e pro Instagram.</p>
+    <button class="btn btn-cp mt" id="salvarPdf" type="button">Prefiro em PDF (pra imprimir)</button>
+  </div>
+
+  <footer class="naoimprime">
+    Seus dados e suas fotos ficam salvos só neste aparelho. Nada é enviado pra internet.<br>
+    Catálogo Pronto pra Mandar · parte do Calculadora de Preço da Artesã
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "catalogo_artesa_v1";
+  var $ = function(id){ return document.getElementById(id); };
+
+  function brl(n){
+    if(!isFinite(n)) n = 0;
+    return "R$ " + n.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  function num(v){
+    v = String(v == null ? "" : v).replace(/[^\d,.-]/g,"").replace(",",".");
+    var n = parseFloat(v); return isFinite(n) ? n : 0;
+  }
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  /* ---------- linha de peça ---------- */
+  function pecaRow(dados){
+    dados = dados || {};
+    var d = document.createElement("div");
+    d.className = "peca";
+    d.innerHTML =
+      '<div class="cab">' +
+        '<span class="num">Peça</span>' +
+        '<button class="del" type="button" title="remover" aria-label="Remover esta peça">&times;</button>' +
+      '</div>' +
+      '<div class="foto">' +
+        '<div class="ph">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<rect x="3" y="3" width="18" height="18" rx="2"/>' +
+          '<path d="m9 13 2.5-3 3 4 2-2.5L19 15"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>' +
+          'Toque pra escolher a foto</div>' +
+        '<input type="file" accept="image/*" aria-label="Foto desta peça">' +
+      '</div>' +
+      '<div><label>Nome da peça</label>' +
+        '<input type="text" class="p-nome" placeholder="Ex: Amigurumi de coelho" ' +
+        'value="' + esc(dados.nome) + '" autocomplete="off" aria-label="Nome da peça"></div>' +
+      '<div class="mt"><label>Detalhe (opcional)</label>' +
+        '<input type="text" class="p-desc" placeholder="Ex: 22 cm, algodão, várias cores" ' +
+        'value="' + esc(dados.desc) + '" autocomplete="off" aria-label="Detalhe da peça"></div>' +
+      '<div class="mt"><label>Preço (R$)</label>' +
+        '<input type="number" class="p-preco" inputmode="decimal" placeholder="Ex: 102,00" ' +
+        'value="' + (dados.preco != null ? dados.preco : "") + '" aria-label="Preço desta peça"></div>';
+
+    var box = d.querySelector(".foto");
+    var file = d.querySelector('input[type=file]');
+    if(dados.img) mostraFoto(box, dados.img);
+
+    file.addEventListener("change", function(){
+      var f = file.files && file.files[0];
+      if(!f) return;
+      comprime(f, function(dataUrl){
+        mostraFoto(box, dataUrl);
+        render(); salvar();
+      });
+    });
+    d.querySelector(".del").addEventListener("click", function(){
+      d.remove(); render(); salvar(); numerar();
+    });
+    d.addEventListener("input", function(){ render(); salvar(); });
+
+    $("pecas").appendChild(d);
+    numerar();
+    return d;
+  }
+
+  function mostraFoto(box, dataUrl){
+    box.dataset.img = dataUrl;
+    var img = box.querySelector("img");
+    if(!img){
+      img = document.createElement("img");
+      box.insertBefore(img, box.firstChild);
+    }
+    img.src = dataUrl;
+    var ph = box.querySelector(".ph");
+    if(ph) ph.style.display = "none";
+  }
+
+  /* Comprime a foto antes de guardar: celular tira foto de 4 MB e o
+     localStorage tem ~5 MB no total. 900px de largura basta pro catálogo. */
+  function comprime(file, cb){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        var max = 900;
+        var w = img.width, h = img.height;
+        if(w > max || h > max){
+          if(w > h){ h = Math.round(h * max / w); w = max; }
+          else { w = Math.round(w * max / h); h = max; }
+        }
+        var c = document.createElement("canvas");
+        c.width = w; c.height = h;
+        c.getContext("2d").drawImage(img, 0, 0, w, h);
+        cb(c.toDataURL("image/jpeg", 0.78));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function numerar(){
+    [].forEach.call($("pecas").querySelectorAll(".peca"), function(p, i){
+      p.querySelector(".num").textContent = "Peça " + (i + 1);
+    });
+  }
+
+  function lerPecas(){
+    return [].map.call($("pecas").querySelectorAll(".peca"), function(p){
+      return {
+        nome:  p.querySelector(".p-nome").value.trim(),
+        desc:  p.querySelector(".p-desc").value.trim(),
+        preco: p.querySelector(".p-preco").value,
+        img:   p.querySelector(".foto").dataset.img || ""
+      };
+    });
+  }
+
+  /* ---------- catálogo ---------- */
+  function render(){
+    var pecas = lerPecas().filter(function(p){ return p.nome || p.img || p.preco; });
+    var nome   = $("ateliê").value.trim();
+    var insta  = $("insta").value.trim();
+    var zap    = $("zap").value.trim();
+    var recado = $("recado").value.trim();
+    var alvo   = $("previa");
+
+    if(!pecas.length){
+      alvo.innerHTML = '<div class="vazio">Adicione uma peça e ela aparece aqui,' +
+        ' já do jeitinho que a sua cliente vai ver.</div>';
+      montaMsg([], nome);
+      return;
+    }
+
+    var chamada = $("chamada").value.trim();
+    var sub = [insta, chamada].filter(Boolean).map(esc).join(" · ");
+    var cab = '<div class="cat-cab"><h3>' + esc(nome || "Meu Ateliê") + '</h3>' +
+      (sub ? "<p>" + sub + "</p>" : "") + "</div>";
+
+    var itens = pecas.map(function(p){
+      return '<div class="cat-item">' +
+        '<div class="im">' + (p.img ? '<img src="' + p.img + '" alt="">' : "") + "</div>" +
+        '<div class="tx">' +
+          '<div class="nm">' + esc(p.nome || "Sem nome") + "</div>" +
+          (p.desc ? '<div class="ds">' + esc(p.desc) + "</div>" : "") +
+          '<div class="pr">' + brl(num(p.preco)) + "</div>" +
+        "</div></div>";
+    }).join("");
+
+    var rodape = '<div class="cat-rodape">' +
+      (zap ? "Encomendas pelo WhatsApp <b>" + esc(zap) + "</b><br>" : "") +
+      (recado ? esc(recado) : "") + "</div>";
+
+    alvo.innerHTML = cab + '<div class="cat-grid">' + itens + "</div>" + rodape;
+    montaMsg(pecas, nome);
+  }
+
+  function montaMsg(pecas, nome){
+    var L = [];
+    L.push(nome ? "*" + nome + "*" : "*Catálogo*");
+    L.push("");
+    if(!pecas.length){
+      L.push("Adicione as suas peças pra montar a mensagem.");
+    } else {
+      L.push("Oi! Segue o catálogo com as peças disponíveis:");
+      L.push("");
+      pecas.forEach(function(p){
+        L.push("• " + (p.nome || "Peça") + ": " + brl(num(p.preco)) +
+               (p.desc ? " (" + p.desc + ")" : ""));
+      });
+      L.push("");
+      L.push("Qualquer dúvida é só chamar!");
+    }
+    var txt = L.join("\n");
+    $("msg").textContent = txt;
+    $("btnWa").href = "https://wa.me/?text=" + encodeURIComponent(txt);
+  }
+
+  /* ---------- salvar ---------- */
+  function salvar(){
+    try{
+      localStorage.setItem(KEY, JSON.stringify({
+        ateliê: $("ateliê").value, zap: $("zap").value,
+        insta: $("insta").value, chamada: $("chamada").value, recado: $("recado").value,
+        pecas: lerPecas()
+      }));
+    }catch(e){
+      /* Cota estourada: quase sempre é foto demais. Avisa em vez de falhar calado. */
+      alert("Não consegui salvar as fotos neste aparelho: são muitas ou muito pesadas.\n\n" +
+            "O catálogo continua funcionando agora. Salve em PDF antes de fechar a página.");
+    }
+  }
+
+  function carregar(){
+    var st = null;
+    try{ st = JSON.parse(localStorage.getItem(KEY) || "null"); }catch(e){}
+    if(st){
+      ["ateliê","zap","insta","chamada","recado"].forEach(function(k){
+        if(st[k] != null && $(k)) $(k).value = st[k];
+      });
+      (st.pecas || []).forEach(pecaRow);
+    }
+    if(!$("pecas").children.length){ pecaRow(); pecaRow(); }
+  }
+
+  /* ---------- eventos ---------- */
+  $("addPeca").addEventListener("click", function(){ pecaRow(); });
+  ["ateliê","zap","insta","chamada","recado"].forEach(function(k){
+    $(k).addEventListener("input", function(){ render(); salvar(); });
+  });
+  $("salvarPdf").addEventListener("click", function(){ window.print(); });
+
+  /* ---------- catálogo como IMAGEM ----------
+     Desenhado no canvas em vez de virar PDF: no WhatsApp a imagem aparece
+     direto na conversa, e o PDF chega como arquivo que a cliente precisa
+     baixar. Sem biblioteca externa, pra não quebrar a regra do offline. */
+  function gerarImagem(cb){
+    var pecas = lerPecas().filter(function(p){ return p.nome || p.img || p.preco; });
+    if(!pecas.length){ alert("Adicione pelo menos uma peça antes de salvar."); return; }
+
+    var nome    = $("ateliê").value.trim() || "Meu Ateliê";
+    var insta   = $("insta").value.trim();
+    var chamada = $("chamada").value.trim();
+    var zap     = $("zap").value.trim();
+    var recado  = $("recado").value.trim();
+
+    var L = 1080;                              // largura, padrão de rede social
+    var cols = pecas.length === 1 ? 1 : 2;
+    var linhas = Math.ceil(pecas.length / cols);
+    var gap = 18, pad = 34;
+    var cel = Math.floor((L - pad*2 - gap*(cols-1)) / cols);
+    var alturaTexto = 132;
+    var topo = 224;
+    var rodape = (zap || recado) ? 128 : 54;
+    var H = topo + linhas*(cel + alturaTexto) + (linhas-1)*gap + rodape;
+
+    var c = document.createElement("canvas");
+    c.width = L; c.height = H;
+    var g = c.getContext("2d");
+
+    /* fundo */
+    g.fillStyle = "#FAF6F0"; g.fillRect(0,0,L,H);
+
+    /* cabeçalho */
+    var grad = g.createLinearGradient(0,0,L,topo-40);
+    grad.addColorStop(0,"#9C5B3F"); grad.addColorStop(1,"#8A4E36");
+    g.fillStyle = grad; g.fillRect(0,0,L,topo-40);
+    g.textAlign = "center";
+    g.fillStyle = "#fff";
+    g.font = "700 52px -apple-system,Segoe UI,Roboto,sans-serif";
+    g.fillText(nome, L/2, 104);
+    var sub = [insta, chamada].filter(Boolean).join("  ·  ");
+    if(sub){
+      g.font = "400 27px -apple-system,Segoe UI,Roboto,sans-serif";
+      g.fillStyle = "rgba(255,255,255,.9)";
+      g.fillText(sub, L/2, 148);
+    }
+
+    /* carrega as fotos antes de desenhar */
+    var imgs = new Array(pecas.length), pend = 0, prontos = 0;
+    pecas.forEach(function(p,i){
+      if(!p.img) return;
+      pend++;
+      var im = new Image();
+      im.onload = function(){ imgs[i] = im; if(++prontos === pend) desenha(); };
+      im.onerror = function(){ if(++prontos === pend) desenha(); };
+      im.src = p.img;
+    });
+    if(!pend) desenha();
+
+    function desenha(){
+      pecas.forEach(function(p,i){
+        var col = i % cols, lin = Math.floor(i / cols);
+        var x = pad + col*(cel + gap);
+        var y = topo + lin*(cel + alturaTexto + gap);
+
+        /* cartão branco */
+        g.fillStyle = "#fff";
+        arredondado(g, x, y, cel, cel + alturaTexto, 16); g.fill();
+
+        /* foto, recortada em quadrado */
+        var im = imgs[i];
+        if(im){
+          g.save();
+          arredondado(g, x, y, cel, cel, 16, true); g.clip();
+          var r = Math.max(cel/im.width, cel/im.height);
+          var w = im.width*r, h = im.height*r;
+          g.drawImage(im, x + (cel-w)/2, y + (cel-h)/2, w, h);
+          g.restore();
+        } else {
+          g.fillStyle = "#F3EBE0";
+          arredondado(g, x, y, cel, cel, 16, true); g.fill();
+        }
+
+        /* texto */
+        g.textAlign = "left";
+        var tx = x + 22, ty = y + cel + 42;
+        g.fillStyle = "#3D332C";
+        g.font = "600 27px -apple-system,Segoe UI,Roboto,sans-serif";
+        corta(g, p.nome || "Sem nome", tx, ty, cel - 44);
+        if(p.desc){
+          g.fillStyle = "#8C8177";
+          g.font = "400 22px -apple-system,Segoe UI,Roboto,sans-serif";
+          corta(g, p.desc, tx, ty + 32, cel - 44);
+        }
+        g.fillStyle = "#9C5B3F";
+        g.font = "700 34px -apple-system,Segoe UI,Roboto,sans-serif";
+        g.fillText(brl(num(p.preco)), tx, ty + (p.desc ? 76 : 58));
+      });
+
+      /* rodapé */
+      if(zap || recado){
+        var yr = H - rodape + 44;
+        g.textAlign = "center";
+        if(zap){
+          g.fillStyle = "#3D332C";
+          g.font = "600 27px -apple-system,Segoe UI,Roboto,sans-serif";
+          g.fillText("Encomendas pelo WhatsApp " + zap, L/2, yr);
+        }
+        if(recado){
+          g.fillStyle = "#8C8177";
+          g.font = "400 23px -apple-system,Segoe UI,Roboto,sans-serif";
+          corta(g, recado, L/2, yr + (zap ? 40 : 0), L - 100, true);
+        }
+      }
+      cb(c);
+    }
+  }
+
+  function arredondado(g, x, y, w, h, r, so){
+    g.beginPath();
+    g.moveTo(x+r, y);
+    g.lineTo(x+w-r, y); g.quadraticCurveTo(x+w, y, x+w, y+r);
+    g.lineTo(x+w, y+h-(so?r:r)); g.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    g.lineTo(x+r, y+h); g.quadraticCurveTo(x, y+h, x, y+h-r);
+    g.lineTo(x, y+r); g.quadraticCurveTo(x, y, x+r, y);
+    g.closePath();
+  }
+
+  function corta(g, texto, x, y, largura, centro){
+    var t = texto;
+    if(g.measureText(t).width > largura){
+      while(t.length > 4 && g.measureText(t + "…").width > largura) t = t.slice(0,-1);
+      t += "…";
+    }
+    if(centro) g.textAlign = "center";
+    g.fillText(t, x, y);
+  }
+
+  $("salvarImg").addEventListener("click", function(){
+    var b = $("salvarImg"), rot = b.innerHTML;
+    b.textContent = "Gerando...";
+    setTimeout(function(){
+      gerarImagem(function(canvas){
+        canvas.toBlob(function(blob){
+          if(!blob){ b.innerHTML = rot; return; }
+          var nomeArq = ($("ateliê").value.trim() || "catalogo")
+            .toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") + ".jpg";
+          var a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = nomeArq;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000);
+          b.innerHTML = rot;
+        }, "image/jpeg", 0.9);
+      });
+    }, 60);
+  });
+  $("copiarMsg").addEventListener("click", function(){
+    var b = $("copiarMsg"), txt = $("msg").textContent;
+    function feito(){
+      var o = b.textContent; b.textContent = "Copiado";
+      setTimeout(function(){ b.textContent = o; }, 1500);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(feito).catch(function(){});
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); feito(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+
+  carregar(); render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kits e Encomendas Grandes</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239C5B3F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 21.7a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7z'/%3E%3Cpath d='M12 22V12'/%3E%3Cpolyline points='3.3 7 12 12 20.7 7'/%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kits">
+<style>
+  :root{
+    --brand:#9C5B3F; --brand-2:#B06B49; --brand-3:#8A4E36;
+    --clay:#C08552; --brass:#A98B4E; --sage:#5C7A5C;
+    --bg:#FAF6F0; --bg2:#F3EBE0; --card:#FEFCF8;
+    --line:#E5DACB; --ink:#3D332C; --muted:#8C8177; --danger:#B5604E;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .app{max-width:700px;margin:0 auto;padding:0 15px 90px}
+
+  header{background:linear-gradient(135deg,var(--brand),var(--brand-3));color:#fff;
+    margin:0 -15px 20px;padding:22px 20px;border-radius:0 0 18px 18px;
+    display:flex;align-items:center;gap:12px}
+  header .logo{width:40px;height:40px;border-radius:11px;flex:none;display:grid;
+    place-items:center;background:rgba(255,255,255,.18)}
+  header .logo svg{width:21px;height:21px}
+  header h1{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em}
+  header p{margin:3px 0 0;font-size:13px;opacity:.9}
+
+  nav{display:flex;gap:2px;background:var(--card);border:1px solid var(--line);
+    border-radius:13px;padding:4px;margin-bottom:16px}
+  nav button{flex:1;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;border:0;
+    background:transparent;color:var(--muted);padding:10px 6px;border-radius:10px;
+    display:flex;flex-direction:column;align-items:center;gap:5px;transition:.16s}
+  nav button svg{width:18px;height:18px}
+  nav button.on{background:var(--bg2);color:var(--brand-3)}
+
+  section[hidden]{display:none}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:17px 18px;margin-bottom:13px}
+  h2{font-size:16px;font-weight:700;margin:0 0 4px}
+  .desc{font-size:13.5px;color:var(--muted);margin:0 0 14px;line-height:1.55}
+  label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  input[type=text],input[type=number]{width:100%;font:inherit;font-size:16px;padding:11px 13px;
+    border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  input:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:transparent}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+  .mt{margin-top:11px}
+
+  .btn{display:block;width:100%;font:inherit;font-size:15px;font-weight:700;cursor:pointer;
+    border:0;border-radius:11px;padding:14px;text-align:center;text-decoration:none;
+    transition:filter .16s}
+  .btn:hover{filter:brightness(1.06)}
+  .btn svg{width:17px;height:17px;vertical-align:-3px;margin-right:7px}
+  .btn-go{background:var(--brand);color:#fff}
+  .btn-wa{background:var(--sage);color:#fff}
+  .btn-cp{background:var(--bg2);color:var(--ink);border:1px solid var(--line)}
+  .btn-add{background:var(--bg2);color:var(--brand-3);border:1px dashed var(--brand-2)}
+
+  .hero{background:linear-gradient(135deg,var(--brand-2),var(--brand-3));color:#fff;
+    border-radius:15px;padding:22px 20px;text-align:center;margin-bottom:13px}
+  .hero .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.13em;opacity:.85}
+  .hero .big{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:7px 0 4px;
+    font-variant-numeric:tabular-nums}
+  .hero .sub{font-size:13px;opacity:.9}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .stat span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--muted);margin-bottom:5px}
+  .stat b{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .stat.win b{color:var(--sage)}
+  .stat.alert b{color:var(--danger)}
+
+  .conta{background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+    padding:13px 15px;margin-bottom:13px}
+  .conta .l{display:flex;justify-content:space-between;gap:12px;padding:7px 0;font-size:14px}
+  .conta .l+.l{border-top:1px solid var(--line)}
+  .conta .l span{color:var(--muted)}
+  .conta .l b{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .conta .l.total{border-top:2px solid var(--line);margin-top:4px;padding-top:11px}
+  .conta .l.total span,.conta .l.total b{color:var(--ink);font-weight:700}
+
+  .alertbox{background:var(--bg2);border-left:3px solid var(--brass);border-radius:10px;
+    padding:14px 16px;font-size:14px;line-height:1.6;margin-bottom:13px}
+  .alertbox.bom{border-left-color:var(--sage)}
+  .alertbox.ruim{border-left-color:var(--danger)}
+  .alertbox b{color:var(--brand-3)}
+
+  .faixa{margin-bottom:11px}
+  .faixa .cab{display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-bottom:9px}
+  .faixa .cab b{font-size:14px}
+  .del{background:transparent;border:0;color:var(--muted);font-size:19px;cursor:pointer;
+    line-height:1;padding:2px 6px;border-radius:6px}
+  .del:hover{color:var(--danger);background:var(--bg2)}
+  .resfaixa{background:var(--bg2);border-radius:9px;padding:9px 12px;font-size:13.5px;
+    margin-top:9px;display:flex;justify-content:space-between;gap:10px}
+  .resfaixa b{font-variant-numeric:tabular-nums}
+
+  .msgbox{background:var(--bg2);border-radius:11px;padding:13px 15px;font-size:14px;
+    white-space:pre-wrap;line-height:1.55;margin-bottom:11px}
+  footer{margin-top:34px;text-align:center;font-size:12.5px;color:var(--muted);line-height:1.7}
+  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 21.7a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7z"/>
+        <path d="M12 22V12"/><polyline points="3.3 7 12 12 20.7 7"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Kits e Encomendas Grandes</h1>
+      <p>O preço do lote sem trabalhar de graça</p>
+    </div>
+  </header>
+
+  <nav>
+    <button class="on" data-go="lote" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 21.7a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7z"/>
+        <path d="M12 22V12"/><polyline points="3.3 7 12 12 20.7 7"/></svg>Encomenda
+    </button>
+    <button data-go="faixas" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>Tabela
+    </button>
+    <button data-go="proposta" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M11 18.5h2"/></svg>Proposta
+    </button>
+  </nav>
+
+  <!-- ENCOMENDA -->
+  <section data-tab="lote">
+    <div class="card">
+      <h2>A encomenda</h2>
+      <p class="desc">Pegue o custo de <b>1 peça</b> na calculadora e traga pra cá. Aqui a gente
+        vê o que muda quando são muitas.</p>
+      <div class="row">
+        <div>
+          <label for="nomePeca">Que peça é</label>
+          <input type="text" id="nomePeca" placeholder="Ex: Lembrancinha de feltro" autocomplete="off">
+        </div>
+        <div>
+          <label for="qtd">Quantas peças</label>
+          <input type="number" id="qtd" inputmode="numeric" placeholder="Ex: 30">
+        </div>
+      </div>
+      <div class="row mt">
+        <div>
+          <label for="custoUn">Custo de 1 peça (R$)</label>
+          <input type="number" id="custoUn" inputmode="decimal" placeholder="Ex: 8,50">
+        </div>
+        <div>
+          <label for="precoUn">Preço normal de 1 (R$)</label>
+          <input type="number" id="precoUn" inputmode="decimal" placeholder="Ex: 22,00">
+        </div>
+      </div>
+      <p class="desc" style="margin:11px 0 0">Os dois números saem da calculadora: o custo por
+        unidade e o preço de venda.</p>
+    </div>
+
+    <div class="card">
+      <h2>O seu tempo no lote</h2>
+      <p class="desc">Fazer 30 iguais leva <b>menos tempo por peça</b> que fazer 1. É daí que
+        sai o desconto honesto, e não do seu lucro.</p>
+      <div class="row">
+        <div>
+          <label for="hUma">Horas pra fazer 1</label>
+          <input type="number" id="hUma" inputmode="decimal" placeholder="Ex: 0,5">
+        </div>
+        <div>
+          <label for="hLote">Horas pro lote todo</label>
+          <input type="number" id="hLote" inputmode="decimal" placeholder="Ex: 9">
+        </div>
+      </div>
+      <div class="mt">
+        <label for="valorHora">Quanto vale a sua hora (R$)</label>
+        <input type="number" id="valorHora" inputmode="decimal" placeholder="Ex: 15">
+      </div>
+      <div class="alertbox" id="dicaTempo" style="margin:13px 0 0">
+        Preencha as horas e eu mostro quanto o lote economiza do seu tempo.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Desconto que você quer dar</h2>
+      <p class="desc">Arraste e veja na hora se ainda sobra pra você.</p>
+      <label style="display:flex;justify-content:space-between;align-items:baseline">
+        <span>Desconto por peça</span>
+        <b id="descVal" style="color:var(--brand);font-size:17px">10%</b>
+      </label>
+      <input type="range" id="desconto" min="0" max="40" step="1" value="10"
+             style="width:100%;accent-color:var(--brand)" aria-label="Desconto por peça">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px">
+        <span>sem desconto</span><span>40%</span>
+      </div>
+      <div class="alertbox" id="alertaDesc" style="margin:14px 0 0"></div>
+    </div>
+
+    <div class="hero">
+      <div class="lbl">Preço do lote</div>
+      <div class="big" id="totalLote">R$ 0,00</div>
+      <div class="sub" id="subLote">preencha a encomenda pra ver</div>
+    </div>
+
+    <div class="grid2">
+      <div class="stat win"><span>Seu lucro no lote</span><b id="lucroLote">R$ 0,00</b></div>
+      <div class="stat"><span>Preço por peça</span><b id="precoLoteUn">R$ 0,00</b></div>
+      <div class="stat"><span>Sua hora no lote</span><b id="horaReal">R$ 0,00</b></div>
+      <div class="stat"><span>Entrada (50%)</span><b id="entrada">R$ 0,00</b></div>
+    </div>
+
+    <div class="conta" id="conta"></div>
+    <button class="btn btn-go" data-go="proposta" type="button">Ver a proposta pronta →</button>
+  </section>
+
+  <!-- TABELA DE FAIXAS -->
+  <section data-tab="faixas" hidden>
+    <div class="card">
+      <h2>Sua tabela de atacado</h2>
+      <p class="desc">Monte de uma vez as faixas que você vai usar sempre. Assim, quando
+        perguntarem "e se eu levar 50?", você já tem a resposta.</p>
+      <div class="row">
+        <div>
+          <label for="tCusto">Custo de 1 peça (R$)</label>
+          <input type="number" id="tCusto" inputmode="decimal" placeholder="Ex: 8,50">
+        </div>
+        <div>
+          <label for="tPreco">Preço de 1 peça (R$)</label>
+          <input type="number" id="tPreco" inputmode="decimal" placeholder="Ex: 22,00">
+        </div>
+      </div>
+    </div>
+
+    <div id="faixas"></div>
+    <button class="btn btn-add" id="addFaixa" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h14"/><path d="M12 5v14"/></svg>Adicionar faixa
+    </button>
+
+    <div class="card mt">
+      <h2>Pronto pra mandar</h2>
+      <div class="msgbox" id="msgTabela"></div>
+      <button class="btn btn-cp" id="copiarTabela" type="button">Copiar a tabela</button>
+    </div>
+  </section>
+
+  <!-- PROPOSTA -->
+  <section data-tab="proposta" hidden>
+    <div class="card">
+      <h2>Dados da proposta</h2>
+      <div class="row">
+        <div>
+          <label for="atelie">Seu ateliê</label>
+          <input type="text" id="atelie" placeholder="Ex: Ateliê da Ana" autocomplete="off">
+        </div>
+        <div>
+          <label for="cliente">Cliente</label>
+          <input type="text" id="cliente" placeholder="Ex: Marina" autocomplete="off">
+        </div>
+      </div>
+      <div class="row mt">
+        <div>
+          <label for="prazo">Prazo (dias)</label>
+          <input type="number" id="prazo" inputmode="numeric" placeholder="Ex: 15">
+        </div>
+        <div>
+          <label for="zap">Seu WhatsApp</label>
+          <input type="text" id="zap" inputmode="numeric" placeholder="11999998888" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="alertbox">
+      <b>Por que pedir entrada:</b> o material do lote você compra antes de receber. Sem entrada,
+      você financia a encomenda da cliente com o seu próprio dinheiro, e se ela desistir no meio
+      o prejuízo é todo seu. <b>50% na hora de fechar</b> é o padrão do mercado e ninguém estranha.
+    </div>
+
+    <div class="card">
+      <h2>A proposta</h2>
+      <p class="desc">Copie e mande. Já vem com prazo, entrada e o que acontece se mudar de ideia.</p>
+      <div class="msgbox" id="msgProposta"></div>
+      <button class="btn btn-cp" id="copiarProposta" type="button">Copiar a proposta</button>
+      <a class="btn btn-wa mt" id="btnWa" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14.5 21.7a.5.5 0 0 0 .9 0l6.5-19a.5.5 0 0 0-.6-.6l-19 6.5a.5.5 0 0 0 0 .9l7.9 3.2a2 2 0 0 1 1.1 1.1z"/>
+          <path d="M21.9 2.1 11 13"/></svg>Mandar no WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    Seus dados ficam salvos só neste aparelho. Nada é enviado pra internet.<br>
+    Kits e Encomendas Grandes · parte do Calculadora de Preço da Artesã
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "kits_artesa_v1";
+  var $ = function(id){ return document.getElementById(id); };
+  function n(id){ var v = parseFloat(($(id)||{}).value); return isFinite(v) ? v : 0; }
+  function brl(v){
+    if(!isFinite(v)) v = 0;
+    return "R$ " + v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  function txt(id){ return (($(id)||{}).value || "").trim(); }
+
+  /* ---------- navegação ---------- */
+  function go(alvo){
+    [].forEach.call(document.querySelectorAll("section[data-tab]"), function(s){
+      s.hidden = s.getAttribute("data-tab") !== alvo;
+    });
+    [].forEach.call(document.querySelectorAll("nav button"), function(b){
+      b.classList.toggle("on", b.getAttribute("data-go") === alvo);
+    });
+    window.scrollTo(0,0);
+  }
+  document.addEventListener("click", function(e){
+    var b = e.target.closest("[data-go]");
+    if(b) go(b.getAttribute("data-go"));
+  });
+
+  /* ---------- encomenda ---------- */
+  function calc(){
+    var qtd = n("qtd"), custoUn = n("custoUn"), precoUn = n("precoUn");
+    var hUma = n("hUma"), hLote = n("hLote"), vh = n("valorHora");
+    var desc = n("desconto");
+    $("descVal").textContent = desc + "%";
+
+    var precoComDesc = precoUn * (1 - desc/100);
+    var total = precoComDesc * qtd;
+    var custoTotal = custoUn * qtd;
+    var lucro = total - custoTotal;
+    var horaReal = hLote > 0 ? (lucro / hLote) : 0;
+
+    $("totalLote").textContent = brl(total);
+    $("subLote").textContent = qtd > 0
+      ? qtd + " peças a " + brl(precoComDesc) + " cada"
+      : "preencha a encomenda pra ver";
+    $("lucroLote").textContent = brl(lucro);
+    $("precoLoteUn").textContent = brl(precoComDesc);
+    $("horaReal").textContent = brl(horaReal);
+    $("entrada").textContent = brl(total * 0.5);
+
+    /* quanto o lote economiza de tempo */
+    var dica = $("dicaTempo");
+    if(hUma > 0 && hLote > 0 && qtd > 0){
+      var sePeca = hUma * qtd;
+      var ganho = sePeca - hLote;
+      var pct = sePeca > 0 ? (ganho / sePeca) * 100 : 0;
+      if(ganho > 0){
+        dica.className = "alertbox bom";
+        dica.innerHTML = "Fazendo uma por uma seriam <b>" + sePeca.toLocaleString("pt-BR") +
+          "h</b>. Em lote são <b>" + hLote.toLocaleString("pt-BR") + "h</b>: você economiza <b>" +
+          Math.round(pct) + "%</b> do tempo. <b>É esse ganho que paga o desconto</b>, não o seu lucro.";
+      } else {
+        dica.className = "alertbox ruim";
+        dica.innerHTML = "O lote não está economizando o seu tempo. Se fazer 30 leva o mesmo " +
+          "tempo por peça que fazer 1, <b>não existe motivo pra dar desconto</b>: cobre o preço normal.";
+      }
+    } else {
+      dica.className = "alertbox";
+      dica.textContent = "Preencha as horas e eu mostro quanto o lote economiza do seu tempo.";
+    }
+
+    /* o alerta que impede o prejuízo */
+    var al = $("alertaDesc");
+    if(qtd <= 0 || precoUn <= 0){
+      al.className = "alertbox";
+      al.textContent = "Preencha a encomenda pra ver se esse desconto cabe.";
+    } else if(precoComDesc < custoUn){
+      al.className = "alertbox ruim";
+      al.innerHTML = "<b>Pare aqui.</b> Com " + desc + "% de desconto você vende a " +
+        brl(precoComDesc) + " uma peça que <b>custa " + brl(custoUn) + "</b> pra fazer. " +
+        "Você estaria pagando " + brl(custoUn - precoComDesc) + " por peça pra trabalhar.";
+    } else if(vh > 0 && hLote > 0 && horaReal < vh * 0.6){
+      al.className = "alertbox ruim";
+      al.innerHTML = "Nesse desconto a sua hora cai pra <b>" + brl(horaReal) + "</b>, bem abaixo " +
+        "dos " + brl(vh) + " que você definiu. Dá lucro no papel, mas <b>o lote está pagando " +
+        "menos que o seu trabalho vale</b>.";
+    } else if(vh > 0 && hLote > 0 && horaReal < vh){
+      al.className = "alertbox";
+      al.innerHTML = "No lote a sua hora fica em <b>" + brl(horaReal) + "</b>, um pouco abaixo " +
+        "dos " + brl(vh) + " normais. Aceitável em encomenda grande, mas não desça mais.";
+    } else {
+      al.className = "alertbox bom";
+      al.innerHTML = "Pode fechar. Sobram <b>" + brl(lucro) + "</b> no lote" +
+        (hLote > 0 ? ", e a sua hora fica em <b>" + brl(horaReal) + "</b>" : "") + ".";
+    }
+
+    /* a conta aberta */
+    var c = $("conta");
+    if(qtd > 0 && precoUn > 0){
+      var linhas =
+        '<div class="l"><span>Preço normal de 1</span><b>' + brl(precoUn) + '</b></div>' +
+        '<div class="l"><span>Desconto de ' + desc + '%</span><b>− ' + brl(precoUn - precoComDesc) + '</b></div>' +
+        '<div class="l"><span>Preço no lote</span><b>' + brl(precoComDesc) + '</b></div>' +
+        '<div class="l"><span>Vezes ' + qtd + ' peças</span><b>' + brl(total) + '</b></div>' +
+        '<div class="l"><span>Custo do material e tempo</span><b>− ' + brl(custoTotal) + '</b></div>' +
+        '<div class="l total"><span>Sobra pra você</span><b>' + brl(lucro) + '</b></div>';
+      c.innerHTML = linhas;
+    } else {
+      c.innerHTML = '<div class="l"><span>Preencha a encomenda e a conta aparece aqui.</span></div>';
+    }
+
+    montaProposta(qtd, precoComDesc, total, desc);
+    salvar();
+  }
+
+  /* ---------- tabela de faixas ---------- */
+  function faixaRow(d){
+    d = d || {};
+    var el = document.createElement("div");
+    el.className = "card faixa";
+    el.innerHTML =
+      '<div class="cab"><b>De quantas peças</b>' +
+      '<button class="del" type="button" title="remover" aria-label="Remover faixa">&times;</button></div>' +
+      '<div class="row3">' +
+        '<div><label>A partir de</label><input type="number" class="f-de" inputmode="numeric" ' +
+          'placeholder="Ex: 10" value="' + (d.de != null ? d.de : "") + '" aria-label="A partir de quantas peças"></div>' +
+        '<div><label>Até</label><input type="number" class="f-ate" inputmode="numeric" ' +
+          'placeholder="Ex: 29" value="' + (d.ate != null ? d.ate : "") + '" aria-label="Até quantas peças"></div>' +
+        '<div><label>Desconto (%)</label><input type="number" class="f-desc" inputmode="numeric" ' +
+          'placeholder="Ex: 10" value="' + (d.desc != null ? d.desc : "") + '" aria-label="Desconto desta faixa"></div>' +
+      '</div>' +
+      '<div class="resfaixa"><span>Preço por peça</span><b class="f-out">R$ 0,00</b></div>';
+    el.querySelector(".del").addEventListener("click", function(){ el.remove(); calcTabela(); });
+    el.addEventListener("input", calcTabela);
+    $("faixas").appendChild(el);
+    return el;
+  }
+
+  function calcTabela(){
+    var custo = n("tCusto"), preco = n("tPreco");
+    var linhas = [];
+    [].forEach.call($("faixas").querySelectorAll(".faixa"), function(f){
+      var de = parseFloat(f.querySelector(".f-de").value) || 0;
+      var ate = parseFloat(f.querySelector(".f-ate").value) || 0;
+      var desc = parseFloat(f.querySelector(".f-desc").value) || 0;
+      var p = preco * (1 - desc/100);
+      var out = f.querySelector(".f-out");
+      out.textContent = brl(p);
+      out.style.color = (custo > 0 && p < custo) ? "var(--danger)" : "";
+      if(de > 0) linhas.push({ de: de, ate: ate, desc: desc, preco: p, abaixo: custo > 0 && p < custo });
+    });
+
+    var L = [];
+    if(preco > 0){
+      L.push("*Tabela de preços por quantidade*");
+      L.push("");
+      L.push("• 1 a " + (linhas.length && linhas[0].de > 1 ? (linhas[0].de - 1) : "9") +
+             " peças: " + brl(preco) + " cada");
+      linhas.forEach(function(f){
+        L.push("• " + f.de + (f.ate ? " a " + f.ate : " ou mais") + " peças: " + brl(f.preco) +
+               " cada" + (f.desc ? " (" + f.desc + "% off)" : ""));
+      });
+      L.push("");
+      L.push("Encomendas com 50% de entrada. Prazo combinado no fechamento.");
+    } else {
+      L.push("Preencha o preço de 1 peça pra montar a tabela.");
+    }
+    $("msgTabela").textContent = L.join("\n");
+    salvar();
+  }
+
+  /* ---------- proposta ---------- */
+  function montaProposta(qtd, precoUn, total, desc){
+    var L = [];
+    var atelie = txt("atelie"), cliente = txt("cliente"), peca = txt("nomePeca");
+    var prazo = n("prazo");
+
+    L.push(atelie ? "*" + atelie + "*" : "*Proposta*");
+    L.push("");
+    L.push(cliente ? ("Oi, " + cliente + "! Segue a proposta da sua encomenda:") : "Segue a proposta da encomenda:");
+    L.push("");
+    L.push("*" + (peca || "Peça") + "*");
+    L.push("• Quantidade: " + (qtd || 0) + " unidades");
+    L.push("• Valor por unidade: " + brl(precoUn) + (desc > 0 ? "  (já com " + desc + "% de desconto por quantidade)" : ""));
+    L.push("• *Total: " + brl(total) + "*");
+    L.push("");
+    L.push("*Como funciona*");
+    L.push("• Entrada de 50% (" + brl(total * 0.5) + ") pra eu comprar o material e reservar a data");
+    L.push("• Restante na entrega");
+    if(prazo > 0) L.push("• Prazo: " + prazo + " dias a partir da entrada");
+    L.push("• Alterações depois de começar podem mudar o prazo e o valor");
+    L.push("");
+    L.push("Qualquer dúvida é só chamar!");
+
+    var t = L.join("\n");
+    $("msgProposta").textContent = t;
+    var zap = txt("zap").replace(/\D/g,"");
+    $("btnWa").href = "https://wa.me/" + (zap ? "55" + zap : "") + "?text=" + encodeURIComponent(t);
+  }
+
+  /* ---------- copiar ---------- */
+  function copiador(btnId, boxId){
+    $(btnId).addEventListener("click", function(){
+      var b = $(btnId), t = $(boxId).textContent;
+      function feito(){
+        var o = b.textContent; b.textContent = "Copiado";
+        setTimeout(function(){ b.textContent = o; }, 1500);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t).then(feito).catch(function(){});
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = t; document.body.appendChild(ta); ta.select();
+        try{ document.execCommand("copy"); feito(); }catch(e){}
+        document.body.removeChild(ta);
+      }
+    });
+  }
+  copiador("copiarTabela", "msgTabela");
+  copiador("copiarProposta", "msgProposta");
+
+  /* ---------- salvar ---------- */
+  var CAMPOS = ["nomePeca","qtd","custoUn","precoUn","hUma","hLote","valorHora","desconto",
+                "tCusto","tPreco","atelie","cliente","prazo","zap"];
+  function salvar(){
+    var o = {};
+    CAMPOS.forEach(function(k){ if($(k)) o[k] = $(k).value; });
+    o.faixas = [].map.call($("faixas").querySelectorAll(".faixa"), function(f){
+      return { de: f.querySelector(".f-de").value, ate: f.querySelector(".f-ate").value,
+               desc: f.querySelector(".f-desc").value };
+    });
+    try{ localStorage.setItem(KEY, JSON.stringify(o)); }catch(e){}
+  }
+  function carregar(){
+    var st = null;
+    try{ st = JSON.parse(localStorage.getItem(KEY) || "null"); }catch(e){}
+    if(st){
+      CAMPOS.forEach(function(k){ if(st[k] != null && $(k)) $(k).value = st[k]; });
+      (st.faixas || []).forEach(faixaRow);
+    }
+    if(!$("faixas").children.length){
+      faixaRow({ de: 10, ate: 29, desc: 10 });
+      faixaRow({ de: 30, ate: "", desc: 18 });
+    }
+  }
+
+  document.addEventListener("input", function(e){
+    if(!e.target.closest) return;
+    if(e.target.closest(".faixa")) return;
+    if(e.target.closest('section[data-tab="faixas"]')){ calcTabela(); return; }
+    calc();
+  });
+  $("addFaixa").addEventListener("click", function(){ faixaRow(); calcTabela(); });
+
+  carregar(); calc(); calcTabela();
+})();
+</script>
+</body>
+</html>

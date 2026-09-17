@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Meus apps · Lucro Artesanato</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="96x96" href="../favicon-96.png">
+<link rel="apple-touch-icon" href="../favicon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#9C5B3F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#9C5B3F; --brand2:#B06B49; --brand-soft:#F3EBE0; --paper:#FAF6F0;
+  --ink:#3D332C; --soft:#8C8177; --line:#E5DACB; --card:#FEFCF8;
+  --ambar:#8a6a1f; --ambar-bg:#F6EFDC;
+  --disp:"Fraunces",Georgia,serif; --body:"Nunito",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16px;min-height:100vh;padding-bottom:40px}
+header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;padding:26px 16px 22px;text-align:center}
+header h1{font-family:var(--disp);font-size:22px;font-weight:700}
+header p{font-size:14px;opacity:.93;margin-top:4px}
+.w{max-width:560px;margin:0 auto;padding:0 16px}
+.lista{margin-top:20px}
+
+.app-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;display:block;text-decoration:none;color:inherit}
+.app-card .topo{display:flex;gap:12px;align-items:flex-start}
+.app-card .icone{width:46px;height:46px;border-radius:13px;background:var(--brand-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.app-card .icone svg{width:24px;height:24px;fill:none;stroke:var(--brand);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.app-card h2{font-family:var(--disp);font-size:17px;font-weight:700;line-height:1.2}
+.app-card .desc{font-size:13.5px;color:var(--soft);margin-top:3px;line-height:1.4}
+.app-card .abrir{margin-top:12px;background:var(--brand);color:#fff;text-align:center;border-radius:12px;padding:13px;font-weight:800}
+.app-card.travado{border-style:dashed}
+.app-card.travado .icone{background:var(--ambar-bg)}
+.app-card.travado .icone svg{stroke:var(--ambar)}
+.mini-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.mini-tags span{background:var(--brand-soft);color:var(--brand);font-size:11.5px;font-weight:700;padding:5px 9px;border-radius:999px}
+.pitch{background:var(--paper);border-radius:12px;padding:11px 12px;font-size:13.5px;margin-top:10px;line-height:1.5}
+.beneficios{margin-top:10px}
+.beneficios>div{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--soft);line-height:1.45;margin-top:7px}
+.beneficios svg{width:16px;height:16px;flex:none;margin-top:3px;fill:none;stroke:var(--brand);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.preco-linha{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px}
+.preco-linha .p{font-size:20px;font-weight:800;color:var(--brand);line-height:1.1}
+.preco-linha .p small{font-size:12px;color:var(--soft);font-weight:600;display:block}
+.preco-linha a{background:var(--ambar-bg);color:var(--ambar);padding:12px 18px;border-radius:12px;font-weight:800;text-decoration:none;font-size:14.5px;white-space:nowrap}
+
+.instalar{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-top:4px}
+.instalar h3{font-family:var(--disp);font-size:15.5px;font-weight:700}
+.instalar p{font-size:13px;color:var(--soft);margin-top:3px;line-height:1.45}
+.instalar button{margin-top:11px;width:100%;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:13px;font-weight:800;font-size:15px;font-family:var(--body);cursor:pointer}
+.instalar[hidden]{display:none}
+footer{text-align:center;color:var(--soft);font-size:12.5px;margin-top:26px;line-height:1.75;padding:0 16px}
+</style></head>
+<body>
+<header><h1>Seus apps</h1><p>pagos uma vez, seus pra sempre</p></header>
+<div class="w">
+  <div class="instalar" id="caixaInstalar" hidden>
+    <h3>Coloque na tela do seu celular</h3>
+    <p>Vira um ícone igual aos outros apps, abre sem navegador e funciona sem internet.</p>
+    <button id="btInstalar" type="button">Instalar</button>
+  </div>
+  <div class="lista" id="lista"></div>
+  <footer>
+    Guarde o e-mail da compra: é por ele que você volta aqui.<br>
+    Dúvida? É só responder aquele e-mail.
+  </footer>
+</div>
+
+<script>
+/* ===== LIBERAÇÃO PELO CAMINHO, e só por ele =====
+
+   Regra dura do Vini (17/09/2026): nada de travar por backend, localStorage ou
+   query string. O que a compradora recebe é UM LINK, e o que aquele link libera
+   está no CAMINHO dele.
+
+   Por que o caminho e não a query: no fluxo Compartilhar > Adicionar à Tela de
+   Início do iOS, a URL do ícone sai do manifest da página aberta, e query string
+   é descartada. Ícone nasceria travado, sem recuperação (no iPhone o app
+   instalado tem storage separado do Safari). Com a chave na pasta, o manifest de
+   cada pasta tem start_url da PRÓPRIA pasta e o ícone nasce liberado.
+
+   /app/p/     -> só o Preço Justo            (quem comprou só o front)
+   /app/pc/    -> Preço Justo + Catálogo      (front + bump)
+   /app/pk/    -> Preço Justo + Kits          (front + upsell, sem bump)
+   /app/tudo/  -> os três                     (front + bump + upsell)          */
+
+const MAPA = {
+  p:    ['preco'],
+  pc:   ['preco','catalogo'],
+  pk:   ['preco','kits'],
+  tudo: ['preco','catalogo','kits']
+};
+
+const LIBERADOS = (function(){
+  /* (?:\/|$) aceita /app/pc e /app/pc/index.html igualmente */
+  const m = location.pathname.match(/\/(p|pc|pk|tudo)(?:\/|$)/);
+  return m ? (MAPA[m[1]] || []) : [];
+})();
+const tem = x => LIBERADOS.includes(x);
+
+/* Dentro de /app/<chave>/ os apps moram NA PRÓPRIA PASTA: é isso que mantém a
+   chave no caminho de toda página que ela possa abrir, e é o que faz o ícone
+   nascer liberado tanto pela start_url do manifest quanto pela URL da aba. */
+const comChave = (url) => {
+  const m = location.pathname.match(/\/(p|pc|pk|tudo)(?:\/|$)/);
+  if(!m) return '../' + url + '/';
+  return url + '.html#de=' + m[1];
+};
+
+/* Checkout de cada degrau. Lidos da API da Cakto em 17/09/2026 (a Cakto é a fonte
+   da verdade, não este arquivo). Se trocar produto ou oferta lá, reconfira com
+   GET /public_api/offers/ — o campo `id` da oferta é o short_id do link. */
+const CHECKOUT = {
+  preco:    'https://pay.cakto.com.br/nrez5fd?checkoutMode=10',  /* Preço Justo,        R$ 47 */
+  catalogo: 'https://pay.cakto.com.br/e62qmd8',                  /* Catálogo Pronto,    R$ 27 */
+  kits:     'https://pay.cakto.com.br/jto27vq'                   /* Kits e Encomendas,  R$ 67 */
+};
+
+const ICO = {
+  preco:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1 1.1-1.7 2.5-1.7s2.5.7 2.5 1.7c0 2.6-5 1.6-5 4.4 0 1 1.1 1.7 2.5 1.7s2.5-.7 2.5-1.7"/></svg>',
+  catalogo:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>',
+  kits:'<svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg>',
+  cadeado:'<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>'
+};
+
+function card(app){
+  if(app.liberado){
+    const tags = app.tags ? `<div class="mini-tags">${app.tags.map(t=>`<span>${t}</span>`).join('')}</div>` : '';
+    return `<a class="app-card" href="${comChave(app.url)}">
+      <div class="topo"><div class="icone">${app.icone}</div>
+        <div><h2>${app.nome}</h2><div class="desc">${app.desc}</div></div></div>
+      ${tags}
+      <div class="abrir">Abrir</div></a>`;
+  }
+  const bens = app.beneficios ? `<div class="beneficios">${app.beneficios.map(b=>
+    `<div><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span>${b}</span></div>`).join('')}</div>` : '';
+  return `<div class="app-card travado">
+    <div class="topo"><div class="icone">${ICO.cadeado}</div>
+      <div><h2>${app.nome}</h2><div class="desc">${app.desc}</div></div></div>
+    <div class="pitch">${app.pitch}</div>
+    ${bens}
+    <div class="preco-linha"><div class="p">${app.preco}<small>pagamento único</small></div>
+      <a href="${app.checkout}" target="_blank" rel="noopener">Liberar agora</a></div></div>`;
+}
+
+const APPS = [
+  { id:'preco', nome:'Preço Justo', icone:ICO.preco, url:'calculadora',
+    desc:'o preço certo de cada peça, com o seu tempo dentro da conta',
+    tags:['material e tempo','custos que somem','orçamento pro WhatsApp','respostas pro "tá caro"'],
+    liberado:tem('preco'), preco:'R$ 47', checkout:CHECKOUT.preco,
+    pitch:'Preço de venda com material, o seu tempo e os custos que somem no meio. O orçamento sai pronto pra mandar.' },
+
+  { id:'catalogo', nome:'Catálogo Pronto', icone:ICO.catalogo, url:'catalogo',
+    desc:'suas peças com foto, nome e preço num arquivo só',
+    tags:['foto, nome e preço','nome do seu ateliê','sai em imagem ou PDF'],
+    liberado:tem('catalogo'), preco:'R$ 27', checkout:CHECKOUT.catalogo,
+    pitch:'Você já sabe o preço. Falta mostrar ele do jeito certo:',
+    beneficios:['mandar foto solta e o preço em outra mensagem faz a cliente pechinchar',
+      'aqui as peças viram um catálogo com o nome do seu ateliê, o preço que você calculou e tudo num arquivo só',
+      'sai em imagem pro WhatsApp ou em PDF pra imprimir'] },
+
+  { id:'kits', nome:'Kits e Encomendas', icone:ICO.kits, url:'kits',
+    desc:'o preço do lote sem trabalhar de graça',
+    tags:['desconto por volume','preço de kit','proposta pronta'],
+    liberado:tem('kits'), preco:'R$ 67', checkout:CHECKOUT.kits,
+    pitch:'A cliente pede 30 peças e quer desconto. Você dá quanto?',
+    beneficios:['o desconto sai do tempo que você economiza fazendo em lote, não do seu lucro',
+      'avisa na hora quando o preço cai abaixo do custo',
+      'e a proposta sai pronta, já com prazo e condição de pagamento'] }
+];
+
+document.getElementById('lista').innerHTML = APPS.map(card).join('');
+
+if(!LIBERADOS.length){
+  document.getElementById('lista').insertAdjacentHTML('afterbegin',
+    `<div class="app-card"><div class="pitch">Este é o espaço de quem comprou o Lucro Artesanato.
+     Se você já comprou, abra o link de acesso que chegou no seu e-mail. Qualquer dúvida, é só responder aquele e-mail.</div></div>`);
+}
+
+/* ===== instalar na tela inicial =====
+   O prompt só existe se o service worker estiver ATIVO no load (regra aprendida
+   em campo: registrar depois mata a instalação de 1 toque). */
+let prompt_ = null;
+const caixa = document.getElementById('caixaInstalar');
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); prompt_ = e; caixa.hidden = false;
+});
+document.getElementById('btInstalar').addEventListener('click', async () => {
+  if(!prompt_) return;
+  prompt_.prompt(); await prompt_.userChoice; prompt_ = null; caixa.hidden = true;
+});
+if(navigator.serviceWorker){
+  /* caminho absoluto: dentro de /app/<chave>/ um caminho relativo daria 404 e o SW não ativaria */
+  navigator.serviceWorker.register('/app/sw.js', {scope:'/app/'}).catch(()=>{});
+}
+</script>
+</body></html>

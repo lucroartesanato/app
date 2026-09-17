@@ -1,0 +1,36 @@
+{
+  "name": "Lucro Artesanato",
+  "short_name": "Preço Justo",
+  "description": "O preço certo de cada peça, com o seu tempo dentro da conta.",
+  "start_url": "https://lucroartesanato.github.io/app/p/",
+  "scope": "https://lucroartesanato.github.io/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAF6F0",
+  "theme_color": "#9C5B3F",
+  "icons": [
+    {
+      "src": "https://lucroartesanato.github.io/app/favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://lucroartesanato.github.io/app/icone-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://lucroartesanato.github.io/app/icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://lucroartesanato.github.io/app/icone-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
